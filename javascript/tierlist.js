@@ -1,4 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let autoScrollInterval = null;
+    const scrollSpeed = 5; // Reduced from 10 to 5 pixels per interval for smoother scrolling
+    const scrollThreshold = 250; // Increased from 150 to 250 pixels for earlier activation
+
+    // Faction theming
+    const factionThemes = {
+        automatons: {
+            primary: '#8B0000',
+            secondary: '#5c0000',
+            accent: '#cc0000',
+            background: 'linear-gradient(45deg, #2a0000, #3d0000)'
+        },
+        terminids: {
+            primary: '#CD853F',
+            secondary: '#8B5E34',
+            accent: '#DEB887',
+            background: 'linear-gradient(45deg, #3d2b1f, #5c422f)'
+        },
+        illuminate: {
+            primary: '#4B0082',
+            secondary: '#330057',
+            accent: '#7b00d3',
+            background: 'linear-gradient(45deg, #1a002e, #2a004b)'
+        }
+    };
+
+    // Add faction selection functionality
+    const factionButtons = document.querySelectorAll('.faction-button');
+    const container = document.querySelector('.container');
+    const header = document.querySelector('header');
+    
+    // Function to apply theme
+    const applyTheme = (faction) => {
+        const theme = factionThemes[faction];
+        
+        // Remove previous faction classes
+        container.classList.remove('automatons-theme', 'terminids-theme', 'illuminate-theme');
+        // Add new faction class
+        container.classList.add(`${faction}-theme`);
+        
+        // Update header text
+        const titleText = document.querySelector('h1');
+        titleText.textContent = `Primary Weapons Tier List - ${faction.charAt(0).toUpperCase() + faction.slice(1)}`;
+        
+        // Update theme colors
+        document.documentElement.style.setProperty('--theme-primary', theme.primary);
+        document.documentElement.style.setProperty('--theme-secondary', theme.secondary);
+        document.documentElement.style.setProperty('--theme-accent', theme.accent);
+        document.documentElement.style.setProperty('--theme-background', theme.background);
+        
+        // Update active button state
+        factionButtons.forEach(btn => btn.classList.remove('active'));
+        const activeButton = document.querySelector(`[data-faction="${faction}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+        
+        // Add faction icon to header logo area
+        const headerLogo = document.querySelector('.header-logo');
+        if (headerLogo) {
+            headerLogo.innerHTML = ''; // Clear existing content
+            const factionIcon = document.createElement('img');
+            factionIcon.src = `../images/factions/${faction}.webp`;
+            factionIcon.alt = faction;
+            factionIcon.className = 'faction-icon';
+            headerLogo.appendChild(factionIcon);
+        }
+    };
+    
+    factionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const faction = button.dataset.faction;
+            applyTheme(faction);
+        });
+    });
+
+    // Set default theme to Automatons
+    applyTheme('automatons');
+
     // Initialize Sortable for each tier container and choices grid
     const containers = document.querySelectorAll('.tier-items, .choices-grid');
     
@@ -9,7 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
             ghostClass: 'item-ghost',
             dragClass: 'item-dragging',
             chosenClass: 'item-chosen',
-            dragEnd: function(evt) {
+            onStart: function() {
+                // Start checking for auto-scroll when drag begins
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+                autoScrollInterval = setInterval(checkForAutoScroll, 16); // ~60fps
+            },
+            onEnd: function(evt) {
+                // Clear auto-scroll when drag ends
+                if (autoScrollInterval) {
+                    clearInterval(autoScrollInterval);
+                    autoScrollInterval = null;
+                }
                 // Add drop animation
                 evt.item.style.animation = 'drop-item 0.3s ease-out forwards';
                 setTimeout(() => {
@@ -18,6 +107,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    function checkForAutoScroll() {
+        const draggingElement = document.querySelector('.item-dragging');
+        if (!draggingElement) return;
+
+        const rect = draggingElement.getBoundingClientRect();
+        const topY = rect.top;
+        const bottomY = rect.bottom;
+        const windowHeight = window.innerHeight;
+
+        // Scroll up if near top
+        if (topY < scrollThreshold) {
+            window.scrollBy(0, -scrollSpeed);
+        }
+        // Scroll down if near bottom
+        else if (bottomY > windowHeight - scrollThreshold) {
+            window.scrollBy(0, scrollSpeed);
+        }
+    }
 
     // Color picker functionality
     const colorPicker = document.getElementById('tier-color');
@@ -47,10 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     resetButton.addEventListener('click', () => {
         // Get all items from tier containers
-        const tierItems = document.querySelectorAll('.tier-items .item');
+        const tierItems = Array.from(document.querySelectorAll('.tier-items .item'));
         
         // Move each item back to choices
         tierItems.forEach(item => {
+            // Remove the item from its current container
+            if (item.parentNode) {
+                item.parentNode.removeChild(item);
+            }
+            // Add it to the choices grid
             choicesGrid.appendChild(item);
             // Add drop animation
             item.style.animation = 'drop-item 0.3s ease-out forwards';
@@ -91,7 +204,17 @@ document.addEventListener('DOMContentLoaded', () => {
             ghostClass: 'item-ghost',
             dragClass: 'item-dragging',
             chosenClass: 'item-chosen',
-            dragEnd: function(evt) {
+            onStart: function() {
+                // Start checking for auto-scroll when drag begins
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+                autoScrollInterval = setInterval(checkForAutoScroll, 16);
+            },
+            onEnd: function(evt) {
+                // Clear auto-scroll when drag ends
+                if (autoScrollInterval) {
+                    clearInterval(autoScrollInterval);
+                    autoScrollInterval = null;
+                }
                 evt.item.style.animation = 'drop-item 0.3s ease-out forwards';
                 setTimeout(() => {
                     evt.item.style.animation = '';
@@ -118,6 +241,103 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add tier to container
         customTiersContainer.appendChild(tierRow);
     });
+
+    // Update faction-specific styles
+    const factionStyles = document.createElement('style');
+    factionStyles.textContent = `
+        :root {
+            --theme-primary: #4a4a4a;
+            --theme-secondary: #333333;
+            --theme-accent: #666666;
+            --theme-background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+        }
+
+        .container {
+            transition: background 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .header-logo {
+            display: flex;
+            justify-content: center;
+            height: 64px;
+            margin-bottom: 1rem;
+        }
+
+        .header-logo .faction-icon {
+            width: 64px;
+            height: 64px;
+            transition: transform 0.3s ease;
+        }
+
+        .faction-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        .faction-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--theme-accent);
+            background: var(--theme-secondary);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .faction-button:hover {
+            background: var(--theme-accent);
+            transform: translateY(-2px);
+        }
+
+        .faction-button.active {
+            background: var(--theme-accent);
+            box-shadow: 0 0 10px var(--theme-accent);
+        }
+
+        .faction-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+        }
+
+        .automatons-theme { background: var(--theme-background); }
+        .terminids-theme { background: var(--theme-background); }
+        .illuminate-theme { background: var(--theme-background); }
+
+        .tier-label {
+            background: var(--theme-primary);
+            transition: background-color 0.3s ease;
+        }
+
+        .tier-items {
+            background: var(--theme-secondary);
+            transition: background-color 0.3s ease;
+        }
+
+        h1, .choices-section h2 {
+            color: white;
+        }
+
+        .subtitle {
+            color: #cccccc;
+        }
+    `;
+    document.head.appendChild(factionStyles);
 });
 
 // Helper function to calculate color brightness
