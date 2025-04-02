@@ -16,67 +16,81 @@
         <header>
             <a href="index.html" class="back-button">← Back to Home</a>
             <h1>Warbonds Tier List</h1>
-            <p class="subtitle">Drag and drop warbonds to create your own tier list</p>
         </header>
+
+        <p class="subtitle">Drag and drop warbonds to create your own tier list</p>
+        <p class="subtitle">Tip: Click on a Tier to edit the name & use the color picker to change the color!</p>
 
         <div class="tier-list">
             <div class="tier-row">
-                <div class="tier-label">S Tier</div>
-                <div class="tier-items" id="s-tier">
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/cutting-edge.webp" alt="Cutting Edge">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/democratic-detonation.webp" alt="Democratic Detonation">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/servants-of-freedom.webp" alt="Servants of Freedom">
-                    </div>
-                </div>
+                <div class="tier-label" contenteditable="true" data-tier="s">S Tier</div>
+                <div class="tier-items" id="s-tier"></div>
             </div>
 
             <div class="tier-row">
-                <div class="tier-label">A Tier</div>
-                <div class="tier-items" id="a-tier">
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/borderline-justice.webp" alt="Borderline Justice">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/helldivers-mobilize.webp" alt="Helldivers Mobilize">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/steeled-veterans.webp" alt="Steeled Veterans">
-                    </div>
-                </div>
+                <div class="tier-label" contenteditable="true" data-tier="a">A Tier</div>
+                <div class="tier-items" id="a-tier"></div>
             </div>
 
             <div class="tier-row">
-                <div class="tier-label">B Tier</div>
-                <div class="tier-items" id="b-tier">
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/freedoms-flame.webp" alt="Freedom's Flame">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/chemical-agents.webp" alt="Chemical Agents">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/urban-legends.webp" alt="Urban Legends">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/polar-patriots.webp" alt="Polar Patriots">
-                    </div>
-                </div>
+                <div class="tier-label" contenteditable="true" data-tier="b">B Tier</div>
+                <div class="tier-items" id="b-tier"></div>
             </div>
 
             <div class="tier-row">
-                <div class="tier-label">C Tier</div>
-                <div class="tier-items" id="c-tier">
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/truth-enforcers.webp" alt="Truth Enforcers">
-                    </div>
-                    <div class="item">
-                        <img class="item-image" src="images/warbonds/viper-commando.webp" alt="Viper Commando">
-                    </div>
+                <div class="tier-label" contenteditable="true" data-tier="c">C Tier</div>
+                <div class="tier-items" id="c-tier"></div>
+            </div>
+
+            <div id="custom-tiers" class="custom-tiers"></div>
+        </div>
+
+        <div class="tier-controls">
+            <button id="add-tier" class="add-tier-button">Add Custom Tier</button>
+            <div class="color-picker-container">
+                <label for="tier-color">Tier Color:</label>
+                <input type="color" id="tier-color" value="#4a4a4a">
+            </div>
+        </div>
+
+        <div class="choices-section">
+            <h2>Warbond Choices</h2>
+            <div class="choices-grid" id="choices">
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/cutting-edge.webp" alt="Cutting Edge">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/democratic-detonation.webp" alt="Democratic Detonation">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/servants-of-freedom.webp" alt="Servants of Freedom">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/borderline-justice.webp" alt="Borderline Justice">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/helldivers-mobilize.webp" alt="Helldivers Mobilize">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/steeled-veterans.webp" alt="Steeled Veterans">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/freedoms-flame.webp" alt="Freedom's Flame">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/chemical-agents.webp" alt="Chemical Agents">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/urban-legends.webp" alt="Urban Legends">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/polar-patriots.webp" alt="Polar Patriots">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/truth-enforcers.webp" alt="Truth Enforcers">
+                </div>
+                <div class="item">
+                    <img class="item-image" src="images/warbonds/viper-commando.webp" alt="Viper Commando">
                 </div>
             </div>
         </div>
