@@ -83,6 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add delete functionality
         const deleteButton = tierRow.querySelector('.delete-tier');
         deleteButton.addEventListener('click', () => {
+            // Get all items in the tier being deleted
+            const tierItems = tierRow.querySelector('.tier-items').children;
+            
+            // Move each item back to the choices grid
+            while (tierItems.length > 0) {
+                const item = tierItems[0];
+                document.getElementById('choices').appendChild(item);
+            }
+            
+            // Now remove the tier
             tierRow.remove();
         });
 
