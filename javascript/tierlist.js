@@ -41,6 +41,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Reset functionality
+    const resetButton = document.getElementById('reset-tiers');
+    const choicesGrid = document.getElementById('choices');
+    
+    resetButton.addEventListener('click', () => {
+        // Get all items from tier containers
+        const tierItems = document.querySelectorAll('.tier-items .item');
+        
+        // Move each item back to choices
+        tierItems.forEach(item => {
+            choicesGrid.appendChild(item);
+            // Add drop animation
+            item.style.animation = 'drop-item 0.3s ease-out forwards';
+            setTimeout(() => {
+                item.style.animation = '';
+            }, 300);
+        });
+    });
+
     // Custom tier functionality
     const addTierButton = document.getElementById('add-tier');
     const customTiersContainer = document.getElementById('custom-tiers');
@@ -135,6 +154,27 @@ style.textContent = `
         0% { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         70% { transform: scale(0.98); }
         100% { transform: scale(1); box-shadow: none; }
+    }
+
+    .reset-button {
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .reset-button:hover {
+        background-color: #ff6666;
+        transform: translateY(-1px);
+    }
+
+    .reset-button:active {
+        transform: translateY(0);
     }
 `;
 document.head.appendChild(style);
