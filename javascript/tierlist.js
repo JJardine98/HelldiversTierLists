@@ -47,11 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const titleText = document.querySelector('h1');
         titleText.textContent = `Primary Weapons Tier List - ${faction.charAt(0).toUpperCase() + faction.slice(1)}`;
         
-        // Update theme colors
-        document.documentElement.style.setProperty('--theme-primary', theme.primary);
-        document.documentElement.style.setProperty('--theme-secondary', theme.secondary);
-        document.documentElement.style.setProperty('--theme-accent', theme.accent);
-        document.documentElement.style.setProperty('--theme-background', theme.background);
+        // Update theme colors with prefixed variables
+        document.documentElement.style.setProperty('--primary-weapons-primary', theme.primary);
+        document.documentElement.style.setProperty('--primary-weapons-secondary', theme.secondary);
+        document.documentElement.style.setProperty('--primary-weapons-accent', theme.accent);
+        document.documentElement.style.setProperty('--primary-weapons-background', theme.background);
         
         // Update active button state
         factionButtons.forEach(btn => btn.classList.remove('active'));
@@ -249,18 +249,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update faction-specific styles
     const factionStyles = document.createElement('style');
     factionStyles.textContent = `
-        .primary-weapons-page {
-            --theme-primary: #4a4a4a;
-            --theme-secondary: #333333;
-            --theme-accent: #666666;
-            --theme-background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+        :root {
+            --primary-weapons-primary: #4a4a4a;
+            --primary-weapons-secondary: #333333;
+            --primary-weapons-accent: #666666;
+            --primary-weapons-background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
         }
 
-        .container {
+        .primary-weapons-page .container {
             transition: background 0.3s ease;
         }
 
-        .header-content {
+        .primary-weapons-page .header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -268,20 +268,20 @@ document.addEventListener('DOMContentLoaded', () => {
             width: 100%;
         }
 
-        .header-logo {
+        .primary-weapons-page .header-logo {
             display: flex;
             justify-content: center;
             height: 64px;
             margin-bottom: 1rem;
         }
 
-        .header-logo .faction-icon {
+        .primary-weapons-page .header-logo .faction-icon {
             width: 64px;
             height: 64px;
             transition: transform 0.3s ease;
         }
 
-        .faction-selector {
+        .primary-weapons-page .faction-selector {
             display: flex;
             justify-content: center;
             gap: 1rem;
@@ -290,54 +290,55 @@ document.addEventListener('DOMContentLoaded', () => {
             padding-top: 1rem;
         }
 
-        .faction-button {
+        .primary-weapons-page .faction-button {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            border: 2px solid var(--theme-accent);
-            background: var(--theme-secondary);
+            border: 2px solid var(--primary-weapons-accent);
+            background: var(--primary-weapons-secondary);
             color: white;
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .faction-button:hover {
-            background: var(--theme-accent);
+        .primary-weapons-page .faction-button:hover {
+            background: var(--primary-weapons-accent);
             transform: translateY(-2px);
         }
 
-        .faction-button.active {
-            background: var(--theme-accent);
-            box-shadow: 0 0 10px var(--theme-accent);
+        .primary-weapons-page .faction-button.active {
+            background: var(--primary-weapons-accent);
+            box-shadow: 0 0 10px var(--primary-weapons-accent);
         }
 
-        .faction-icon {
+        .primary-weapons-page .faction-icon {
             width: 24px;
             height: 24px;
             margin-right: 0.5rem;
         }
 
-        .automatons-theme { background: var(--theme-background); }
-        .terminids-theme { background: var(--theme-background); }
-        .illuminate-theme { background: var(--theme-background); }
+        .primary-weapons-page .automatons-theme { background: var(--primary-weapons-background); }
+        .primary-weapons-page .terminids-theme { background: var(--primary-weapons-background); }
+        .primary-weapons-page .illuminate-theme { background: var(--primary-weapons-background); }
 
-        .tier-label {
-            background: var(--theme-primary);
+        .primary-weapons-page .tier-label {
+            background: var(--primary-weapons-primary);
             transition: background-color 0.3s ease;
         }
 
-        .tier-items {
-            background: var(--theme-secondary);
+        .primary-weapons-page .tier-items {
+            background: var(--primary-weapons-secondary);
             transition: background-color 0.3s ease;
         }
 
-        h1, .choices-section h2 {
+        .primary-weapons-page h1, 
+        .primary-weapons-page .choices-section h2 {
             color: white;
         }
 
-        .subtitle {
+        .primary-weapons-page .subtitle {
             color: #cccccc;
         }
     `;
