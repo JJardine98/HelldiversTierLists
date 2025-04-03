@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Only apply faction themes if we're on the primary weapons page
+    const isPrimaryWeaponsPage = window.location.pathname.includes('primary-weapons.html');
+    if (!isPrimaryWeaponsPage) return;
+
     let autoScrollInterval = null;
     const scrollSpeed = 5; // Reduced from 10 to 5 pixels per interval for smoother scrolling
     const scrollThreshold = 250; // Increased from 150 to 250 pixels for earlier activation
@@ -245,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update faction-specific styles
     const factionStyles = document.createElement('style');
     factionStyles.textContent = `
-        :root {
+        .primary-weapons-page {
             --theme-primary: #4a4a4a;
             --theme-secondary: #333333;
             --theme-accent: #666666;
